@@ -1,53 +1,78 @@
 # Parallel Matrix Multiplication
 
-Course: IFB-206 KOMPUTASI PARALEL & SISTEM TERDISTRIBUSI CC
-Name: M. Attiin Mumtaz  
-NRP: 152024051  
+Course: IFB-206 KOMPUTASI PARALEL & SISTEM TERDISTRIBUSI CC  
+Name: M. Attiin Mumtaz
+NRP: 152024051
 
 ---
 
 ## 📌 Description
-This project demonstrates parallel computing using matrix multiplication.
 
-Two versions are implemented:
+This project demonstrates parallel computing using Matrix Multiplication.
+
+Two approaches are implemented:
 1. Serial computation
 2. Parallel computation using Python threads
 
----
-
-## 🧠 Concept (Data Parallelism)
-
-Each thread computes one element of the result matrix:
-
-Thread example:
-- Thread 1 → computes C[0][0]
-- Thread 2 → computes C[0][1]
-- Thread 3 → computes C[1][0]
-
-Outer loops (i and j) are parallelized.
+The program compares execution time and calculates speedup.
 
 ---
 
-## ▶ How to Run
+## 🧠 Concept Used
 
-Open terminal in project folder and run:
+### Data Parallelism
+Each thread computes one element of result matrix C[i][j].
 
-python matrix_parallel.py
+Parallelized loops:
+- Loop i
+- Loop j
+
+Sequential loop:
+- Loop k
 
 ---
 
-## ⏱ Example Output
+## 📊 Performance Measurement
 
-Serial Time: 3.12 seconds  
-Parallel Time: 1.85 seconds  
+The program tests multiple matrix sizes:
+- 50 x 50
+- 100 x 100
+- 150 x 150
+
+For each size, it measures:
+- Serial execution time
+- Parallel execution time
+- Speedup
+
+Speedup formula:
 
 Speedup = Serial Time / Parallel Time
 
 ---
 
-## 📊 Explanation
+## ⚠ Why Speedup is Limited?
 
-Based on Amdahl's Law, speedup is limited because:
-- Some parts are still sequential (loop k)
+Based on Amdahl’s Law:
+
+- Some parts remain sequential (loop k)
 - Thread creation overhead
 - Synchronization cost
+
+Therefore, speedup cannot grow infinitely.
+
+---
+
+## ▶ How to Run
+
+Open terminal in project folder:
+
+python matrix_parallel.py
+
+---
+
+## ✅ Output Example
+
+Matrix Size: 100 x 100  
+Serial Time   : 3.12 seconds  
+Parallel Time : 1.85 seconds  
+Speedup       : 1.68  
