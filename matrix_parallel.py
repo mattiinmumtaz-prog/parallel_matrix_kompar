@@ -2,15 +2,15 @@ import threading
 import time
 import random
 
-# =========================
+# ==============================
 # Generate Random Matrix
-# =========================
+# ==============================
 def generate_matrix(n):
     return [[random.randint(1, 10) for _ in range(n)] for _ in range(n)]
 
-# =========================
-# Serial Matrix Multiplication
-# =========================
+# ==============================
+# SERIAL VERSION
+# ==============================
 def matrix_multiply_serial(A, B):
     n = len(A)
     C = [[0]*n for _ in range(n)]
@@ -22,9 +22,9 @@ def matrix_multiply_serial(A, B):
 
     return C
 
-# =========================
-# Parallel Matrix Multiplication
-# =========================
+# ==============================
+# PARALLEL VERSION
+# ==============================
 def compute_element(A, B, C, i, j):
     n = len(A)
     for k in range(n):
@@ -46,23 +46,43 @@ def matrix_multiply_parallel(A, B):
 
     return C
 
-# =========================
-# Main Program
-# =========================
-if __name__ == "__main__":
-    N = 100   # ukuran matrix
+# ==============================
+# PERFORMANCE TEST
+# ==============================
+def run_test(N):
+    print("\n=================================")
+    print("Matrix Size:", N, "x", N)
+    print("=================================")
 
     A = generate_matrix(N)
     B = generate_matrix(N)
 
-    # Serial Execution
+    # SERIAL
     start = time.time()
     matrix_multiply_serial(A, B)
-    end = time.time()
-    print("Serial Time:", end - start)
+    serial_time = time.time() - start
+    print("Serial Time   :", round(serial_time, 4), "seconds")
 
-    # Parallel Execution
+    # PARALLEL
     start = time.time()
     matrix_multiply_parallel(A, B)
-    end = time.time()
-    print("Parallel Time:", end - start)
+    parallel_time = time.time() - start
+    print("Parallel Time :", round(parallel_time, 4), "seconds")
+
+    # SPEEDUP
+    speedup = serial_time / parallel_time
+    print("Speedup       :", round(speedup, 4))
+
+    print("\nExplanation:")
+    print("Speedup is limited due to Amdahl's Law,")
+    print("thread creation overhead, and sequential part (loop k).")
+
+# ==============================
+# MAIN PROGRAM
+# ==============================
+if __name__ == "__main__":
+    print("IFB206 - Parallel Matrix Multiplication")
+    print("Testing Data Parallelism & Amdahl's Law")
+
+    for size in [50, 100, 150]:
+        run_test(size)
